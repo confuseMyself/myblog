@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>React 函数式组件性能优化指南 | 张三千的博客 不积跬步，无以至千里；不积小流，无以成江海</title>
+    <meta name="description" content="This is a blog example built by VuePress">
+    
+    
+    <link rel="preload" href="/myblog/assets/css/0.styles.f82f62f8.css" as="style"><link rel="preload" href="/myblog/assets/js/app.c3e76545.js" as="script"><link rel="preload" href="/myblog/assets/js/4.e0b45d6f.js" as="script"><link rel="preload" href="/myblog/assets/js/5.bc987a91.js" as="script"><link rel="preload" href="/myblog/assets/js/15.e50f1950.js" as="script"><link rel="prefetch" href="/myblog/assets/js/1.f02aae8f.js"><link rel="prefetch" href="/myblog/assets/js/10.2cacd6b3.js"><link rel="prefetch" href="/myblog/assets/js/11.b15ee8dd.js"><link rel="prefetch" href="/myblog/assets/js/12.1cf23e8d.js"><link rel="prefetch" href="/myblog/assets/js/13.806562d0.js"><link rel="prefetch" href="/myblog/assets/js/14.01beda06.js"><link rel="prefetch" href="/myblog/assets/js/16.83dcc4fb.js"><link rel="prefetch" href="/myblog/assets/js/17.1692286c.js"><link rel="prefetch" href="/myblog/assets/js/18.1ca7f298.js"><link rel="prefetch" href="/myblog/assets/js/19.c04dfa85.js"><link rel="prefetch" href="/myblog/assets/js/6.6f9b9ed9.js"><link rel="prefetch" href="/myblog/assets/js/7.7da3b1a3.js"><link rel="prefetch" href="/myblog/assets/js/8.2d38c4a0.js"><link rel="prefetch" href="/myblog/assets/js/9.f5ba70e6.js"><link rel="prefetch" href="/myblog/assets/js/vuejs-paginate.14c0cfca.js">
+    <link rel="stylesheet" href="/myblog/assets/css/0.styles.f82f62f8.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="vuperess-theme-blog__global-layout"><section id="header-wrapper"><header id="header"><div class="header-wrapper"><div class="title"><a href="/myblog/" class="nav-link home-link">张三千的博客 不积跬步，无以至千里；不积小流，无以成江海
+        </a></div> <div class="header-right-wrap"><ul class="nav"><li class="nav-item"><a href="/myblog/" class="nav-link">博客</a></li><li class="nav-item"><a href="/myblog/tag/" class="nav-link">分类</a></li></ul> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div></div></div></header></section> <div id="mobile-header"><div class="mobile-header-bar"><div class="mobile-header-title"><a href="/myblog/" class="nav-link mobile-home-link">张三千的博客 不积跬步，无以至千里；不积小流，无以成江海
+      </a> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div> <div class="mobile-menu-wrapper"><hr class="menu-divider"> <ul class="mobile-nav"><li class="mobile-nav-item"><a href="/myblog/" class="nav-link">博客</a></li><li class="mobile-nav-item"><a href="/myblog/tag/" class="nav-link">分类</a></li></ul></div></div></div> <div class="content-wrapper"><div id="vuperess-theme-blog__post-layout"><div class="vuepress-blog-theme-content"><div class="content__default"><h2 id="react-函数式组件性能优化指南"><a href="#react-函数式组件性能优化指南" class="header-anchor">#</a> React 函数式组件性能优化指南</h2> <h4 id="react-性能优化思路"><a href="#react-性能优化思路" class="header-anchor">#</a> React 性能优化思路</h4> <p>我觉得 React 性能优化的理念的主要方向就是这两个：</p> <ul><li>减少重新 render 的次数。因为在 React 里最重(花时间最长)的一块就是 reconction(简单的可以理解为 diff)，如果不 render，就不会 reconction。</li> <li>减少计算的量。主要是减少重复计算，对于函数式组件来说，每次 render 都会重新从头开始执行函数调用。</li></ul> <p>在使用类组件的时候，使用的 React 优化 API 主要是：shouldComponentUpdate和 PureComponent，这两个 API 所提供的解决思路都是为了减少重新 render 的次数，主要是减少父组件更新而子组件也更新的情况，虽然也可以在 state 更新的时候阻止当前组件渲染，如果要这么做的话，证明你这个属性不适合作为 state，而应该作为静态属性或者放在 class 外面作为一个简单的变量 。</p> <p>但是在函数式组件里面没有声明周期也没有类，那如何来做性能优化呢？</p> <hr> <h5 id="react-memo"><a href="#react-memo" class="header-anchor">#</a> React.memo</h5> <p>首先要介绍的就是 React.memo，这个 API 可以说是对标类组件里面的 PureComponent，这是可以减少重新 render 的次数的。</p> <p>探讨可能产生的性能问题</p> <p>当函数式组件在父组件重新render时，函数式组件会重新从头开始执行函数调用，不管props有无变化。我们需要的是，父组件重新render时，当props无变化时，函数式组件不重新渲染。</p> <p>那么我们怎么才能做到props无变化时，函数式自组件不渲染呢？
+答案就是用 React.memo 在给定相同 props 的情况下渲染相同的结果，并且通过记忆组件渲染结果的方式来提高组件的性能表现。</p> <p><em><strong>React.memo 的基础用法</strong></em></p> <p>把声明的组件通过React.memo包一层就好了，React.memo其实是一个高阶函数，传递一个组件进去，返回一个可以记忆的组件。</p> <div class="language- extra-class"><pre class="language-text"><code>function Component(props) {
+   /* 使用 props 渲染 */
+}
+const MyComponent = React.memo(Component);
+</code></pre></div><p>举个栗子</p> <div class="language- extra-class"><pre class="language-text"><code>import React from &quot;react&quot;;
+
+function Child(props) {
+  console.log(props.name)
+  return &lt;h1&gt;{props.name}&lt;/h1&gt;
+}
+
+export default React.memo(Child)
+</code></pre></div><p>通过 React.memo 包裹的组件在 props 不变的情况下，这个被包裹的组件是不会重新渲染的，也就是说上面那个例子，当父组件重新render时，但props无变化时， Child 组件不会重新渲染（表现出来的效果就是 Child 里面的 log 不会在控制台打印出来），会直接复用最近一次渲染的结果。</p> <p>这个效果基本跟类组件里面的 PureComponent效果极其类似，只是前者用于函数组件，后者用于类组件。</p> <p><em><strong>React.memo 高级用法</strong></em></p> <p>默认情况下其只会对 props 的复杂对象做浅层对比(浅层对比就是只会对比前后两次 props 对象引用是否相同，不会对比对象里面的内容是否相同)，如果你想要控制对比过程，那么请将自定义的比较函数通过第二个参数传入来实现。</p> <div class="language- extra-class"><pre class="language-text"><code>function MyComponent(props) {
+  /* 使用 props 渲染 */
+}
+function areEqual(prevProps, nextProps) {
+  /*
+  如果把 nextProps 传入 render 方法的返回结果与
+  将 prevProps 传入 render 方法的返回结果一致则返回 true，
+  否则返回 false
+  也就时说：如果函数返回 true，就会跳过更新。
+  */
+}
+export default React.memo(MyComponent, areEqual);
+</code></pre></div><hr> <p><em><strong>useCallback</strong></em></p> <p>先看下面的栗子</p> <p>父组件index.js</p> <div class="language- extra-class"><pre class="language-text"><code>// index.js
+import React, { useState } from &quot;react&quot;;
+import ReactDOM from &quot;react-dom&quot;;
+import Child from &quot;./child&quot;;
+
+function App() {
+  const [title, setTitle] = useState(&quot;这是一个 title&quot;);
+  const [subtitle, setSubtitle] = useState(&quot;我是一个副标题&quot;);
+
+  const callback = () =&gt; {
+    setTitle(&quot;标题改变了&quot;);
+  };
+  return (
+    &lt;div className=&quot;App&quot;&gt;
+      &lt;h1&gt;{title}&lt;/h1&gt;
+      &lt;h2&gt;{subtitle}&lt;/h2&gt;
+      &lt;button onClick={() =&gt; setSubtitle(&quot;副标题改变了&quot;)}&gt;改副标题&lt;/button&gt;
+      &lt;Child onClick={callback} name=&quot;桃桃&quot; /&gt;
+    &lt;/div&gt;
+  );
+}
+
+const rootElement = document.getElementById(&quot;root&quot;);
+ReactDOM.render(&lt;App /&gt;, rootElement);
+</code></pre></div><p>子组件 child.js</p> <div class="language- extra-class"><pre class="language-text"><code>import React from &quot;react&quot;;
+
+function Child(props) {
+  console.log(props);
+  return (
+    &lt;&gt;
+      &lt;button onClick={props.onClick}&gt;改标题&lt;/button&gt;
+      &lt;h1&gt;{props.name}&lt;/h1&gt;
+    &lt;/&gt;
+  );
+}
+
+export default React.memo(Child);
+</code></pre></div><p>性能问题</p> <p>当我点击改副标题这个 button 之后，副标题会变为「副标题改变了」，并且控制台会再次打印出桃桃，这就证明了子组件又重新渲染了，但是子组件没有任何变化，那么这次 Child 组件的重新渲染就是多余的，那么如何避免掉这个多余的渲染呢？</p> <p>找原因</p> <p>我们在解决问题的之前，首先要知道这个问题是什么原因导致的？</p> <p>咱们来分析，一个组件重新重新渲染，一般三种情况：</p> <ul><li><p>要么是组件自己的状态改变</p></li> <li><p>要么是父组件重新渲染，导致子组件重新渲染，但是父组件的 props 没有改版</p></li> <li><p>要么是父组件重新渲染，导致子组件重新渲染，但是父组件传递的 props 改变</p></li></ul> <p>接下来用排除法查出是什么原因导致的：</p> <p>第一种很明显就排除了，当点击改副标题 的时候并没有去改变 Child 组件的状态；</p> <p>第二种情况好好想一下，是不是就是在介绍 React.memo 的时候情况，父组件重新渲染了，父组件传递给子组件的 props 没有改变，但是子组件重新渲染了，我们这个时候用 React.memo 来解决了这个问题，所以这种情况也排除。</p> <p>那么就是第三种情况了，当父组件重新渲染的时候，传递给子组件的 props 发生了改变，再看传递给 Child 组件的就两个属性，一个是 name，一个是 onClick ，name 是传递的常量，不会变，变的就是 onClick 了，为什么传递给 onClick 的 callback 函数会发生改变呢？在文章的开头就已经说过了，<strong><font color="red">在函数式组件里每次重新渲染，函数组件都会重头开始重新执行，那么这两次创建的 callback 函数肯定发生了改变，所以导致了子组件重新渲染。</font></strong></p> <p><strong>如何解决</strong></p> <p>找到问题的原因了，那么解决办法就是在函数没有改变的时候，重新渲染的时候保持两个函数的引用一致，这个时候就要用到 useCallback 这个 API 了。</p> <p>useCallback 使用方法</p> <div class="language- extra-class"><pre class="language-text"><code>const callback = () =&gt; {
+  doSomething(a, b);
+}
+
+const memoizedCallback = useCallback(callback, [a, b])
+</code></pre></div><p>把函数以及依赖项作为参数传入 useCallback，它将返回该回调函数的 memoized 版本，这个 memoizedCallback 只有在依赖项有变化的时候才会更新。</p> <p>那么可以将 index.js 修改为这样：</p> <div class="language- extra-class"><pre class="language-text"><code>// index.js
+import React, { useState, useCallback } from &quot;react&quot;;
+import ReactDOM from &quot;react-dom&quot;;
+import Child from &quot;./child&quot;;
+
+function App() {
+  const [title, setTitle] = useState(&quot;这是一个 title&quot;);
+  const [subtitle, setSubtitle] = useState(&quot;我是一个副标题&quot;);
+
+  const callback = () =&gt; {
+    setTitle(&quot;标题改变了&quot;);
+  };
+
+  // 通过 useCallback 进行记忆 callback，并将记忆的 callback 传递给 Child
+  const memoizedCallback = useCallback(callback, [])
+
+  return (
+    &lt;div className=&quot;App&quot;&gt;
+      &lt;h1&gt;{title}&lt;/h1&gt;
+      &lt;h2&gt;{subtitle}&lt;/h2&gt;
+      &lt;button onClick={() =&gt; setSubtitle(&quot;副标题改变了&quot;)}&gt;改副标题&lt;/button&gt;
+      &lt;Child onClick={memoizedCallback} name=&quot;桃桃&quot; /&gt;
+    &lt;/div&gt;
+  );
+}
+
+const rootElement = document.getElementById(&quot;root&quot;);
+ReactDOM.render(&lt;App /&gt;, rootElement);
+
+</code></pre></div><p><strong><font color="red">如果我们的 callback 传递了参数，当参数变化的时候需要让它重新添加一个缓存，可以将参数放在 useCallback 第二个参数的数组中，作为依赖的形式，使用方式跟 useEffect 类似。</font></strong></p> <hr> <p><em><strong>useMemo</strong></em></p> <p>在文章的开头就已经介绍了，React 的性能优化方向主要是两个：一个是减少重新 render 的次数(或者说减少不必要的渲染)，另一个是减少计算的量。</p> <p>前面介绍的 React.memo 和 useCallback 都是为了减少重新 render 的次数。对于如何减少计算的量，就是 useMemo 来做的，接下来我们看例子。</p> <div class="language- extra-class"><pre class="language-text"><code>function App() {
+  const [num, setNum] = useState(0);
+
+  // 一个非常耗时的一个计算函数
+  // result 最后返回的值是 49995000
+  function expensiveFn() {
+    let result = 0;
+
+    for (let i = 0; i &lt; 10000; i++) {
+      result += i;
+    }
+
+    console.log(result) // 49995000
+    return result;
+  }
+
+  const base = expensiveFn();
+
+  return (
+    &lt;div className=&quot;App&quot;&gt;
+      &lt;h1&gt;count：{num}&lt;/h1&gt;
+      &lt;button onClick={() =&gt; setNum(num + base)}&gt;+1&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre></div><p>这个例子功能很简单，就是点击 +1 按钮，然后会将现在的值(num) 与 计算函数 (expensiveFn) 调用后的值相加，然后将和设置给 num 并显示出来，在控制台会输出 49995000。</p> <p>可能产生性能问题</p> <p>就算是一个看起来很简单的组件，也有可能产生性能问题，通过这个最简单的例子来看看还有什么值得优化的地方。</p> <p>首先我们把 expensiveFn 函数当做一个计算量很大的函数(比如你可以把 i 换成 10000000)，然后当我们每次点击 +1 按钮的时候，都会重新渲染组件，而且都会调用 expensiveFn 函数并输出 49995000。由于每次调用 expensiveFn 所返回的值都一样，所以我们可以想办法将计算出来的值缓存起来，每次调用函数直接返回缓存的值，这样就可以做一些性能优化。</p> <p>useMemo 做计算结果缓存</p> <p>针对上面产生的问题，就可以用 useMemo 来缓存 expensiveFn 函数执行后的值。</p> <p>首先介绍一下 useMemo 的基本的使用方法，详细的使用方法可见官网：</p> <div class="language- extra-class"><pre class="language-text"><code>function computeExpensiveValue() {
+  // 计算量很大的代码
+  return xxx
+}
+
+const memoizedValue = useMemo(computeExpensiveValue, [a, b]);
+</code></pre></div><p>useMemo 的第一个参数就是一个函数，这个函数返回的值会被缓存起来，同时这个值会作为 useMemo 的返回值，第二个参数是一个数组依赖，如果数组里面的值有变化，那么就会重新去执行第一个参数里面的函数，并将函数返回的值缓存起来并作为 useMemo 的返回值 。</p> <p>了解了 useMemo 的使用方法，然后就可以对上面的例子进行优化，优化代码如下：</p> <div class="language- extra-class"><pre class="language-text"><code>function App() {
+  const [num, setNum] = useState(0);
+
+  function expensiveFn() {
+    let result = 0;
+    for (let i = 0; i &lt; 10000; i++) {
+      result += i;
+    }
+    console.log(result)
+    return result;
+  }
+
+  const base = useMemo(expensiveFn, []);
+
+  return (
+    &lt;div className=&quot;App&quot;&gt;
+      &lt;h1&gt;count：{num}&lt;/h1&gt;
+      &lt;button onClick={() =&gt; setNum(num + base)}&gt;+1&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre></div><p>执行上面的代码，然后现在可以观察无论我们点击 +1多少次，只会输出一次 49995000，这就代表 expensiveFn 只执行了一次，达到了我们想要的效果。</p> <p>小结</p> <p>useMemo 的使用场景主要是用来缓存计算量比较大的函数结果，可以避免不必要的重复计算，有过 vue 的使用经历同学可能会觉得跟 Vue 里面的计算属性有异曲同工的作用。</p> <p>不过另外提醒两点</p> <ul><li>如果没有提供依赖项数组，useMemo 在每次渲染时都会计算新的值；</li> <li>计算量如果很小的计算函数，也可以选择不使用 useMemo，因为这点优化并不会作为性能瓶颈的要点，反而可能使用错误还会引起一些性能问题。</li></ul> <hr> <p>对于性能瓶颈可能对于小项目遇到的比较少，毕竟计算量小、业务逻辑也不复杂，但是对于大项目，很可能是会遇到性能瓶颈的，<em><strong>但是对于性能优化有很多方面：网络、关键路径渲染、打包、图片、缓存等等方面，具体应该去优化哪方面还得自己去排查</strong></em>，本文只介绍了性能优化中的冰山一角：运行过程中 React 的优化。</p> <ul><li>React 的优化方向：减少 render 的次数；减少重复计算。</li> <li>如何去找到 React 中导致性能问题的方法，见 useCallback 部分。</li> <li>合理的拆分组件其实也是可以做性能优化的，你这么想，如果你整个页面只有一个大的组件，那么当 props 或者 state 变更之后，需要 reconction 的是整个组件，其实你只是变了一个文字，如果你进行了合理的组件拆分，你就可以控制更小粒度的更新。</li></ul> <p><font color="red">合理拆分组件还有很多其他好处，比如好维护，而且这是学习组件化思想的第一步，合理的拆分组件又是一门艺术了，如果拆分得不合理，就有可能导致状态混乱，多敲代码多思考。</font></p></div> <hr> <!----></div> <div class="sticker vuepress-toc"><div class="vuepress-toc-item vuepress-toc-h2 active"><a href="#react-函数式组件性能优化指南" title="React 函数式组件性能优化指南">React 函数式组件性能优化指南</a></div></div></div></div> <footer class="footer" data-v-0d113134><div class="footer-left-wrap" data-v-0d113134><ul class="contact" data-v-0d113134><li class="contact-item" data-v-0d113134><a href="https://github.com/ulivz" target="_blank" rel="noopener noreferrer" class="nav-link external" data-v-0d113134><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github" data-v-0d113134><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" data-v-0d113134></path></svg>
+          
+        </a></li><li class="contact-item" data-v-0d113134><a href="https://twitter.com/_ulivz" target="_blank" rel="noopener noreferrer" class="nav-link external" data-v-0d113134><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter" data-v-0d113134><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" data-v-0d113134></path></svg>
+          
+        </a></li></ul></div> <div class="footer-right-wrap" data-v-0d113134><ul class="copyright" data-v-0d113134><li class="copyright-item" data-v-0d113134><a href="https://policies.google.com/privacy?hl=en-US" target="_blank" rel="noopener noreferrer" class="nav-link external" data-v-0d113134>Privacy Policy</a></li><li class="copyright-item" data-v-0d113134><a href="/myblog/2019/11/25/react-%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BB%84%E4%BB%B6%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%8C%87%E5%8D%97/.html" class="nav-link" data-v-0d113134>MIT Licensed | Copyright © 2018-present Vue.js</a></li></ul></div></footer></div><div class="global-ui"></div></div>
+    <script src="/myblog/assets/js/app.c3e76545.js" defer></script><script src="/myblog/assets/js/4.e0b45d6f.js" defer></script><script src="/myblog/assets/js/5.bc987a91.js" defer></script><script src="/myblog/assets/js/15.e50f1950.js" defer></script>
+  </body>
+</html>

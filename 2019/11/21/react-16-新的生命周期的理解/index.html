@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>react 16.x 新的生命周期的理解 | 张三千的博客 不积跬步，无以至千里；不积小流，无以成江海</title>
+    <meta name="description" content="This is a blog example built by VuePress">
+    
+    
+    <link rel="preload" href="/myblog/assets/css/0.styles.f82f62f8.css" as="style"><link rel="preload" href="/myblog/assets/js/app.c3e76545.js" as="script"><link rel="preload" href="/myblog/assets/js/4.e0b45d6f.js" as="script"><link rel="preload" href="/myblog/assets/js/5.bc987a91.js" as="script"><link rel="preload" href="/myblog/assets/js/16.83dcc4fb.js" as="script"><link rel="prefetch" href="/myblog/assets/js/1.f02aae8f.js"><link rel="prefetch" href="/myblog/assets/js/10.2cacd6b3.js"><link rel="prefetch" href="/myblog/assets/js/11.b15ee8dd.js"><link rel="prefetch" href="/myblog/assets/js/12.1cf23e8d.js"><link rel="prefetch" href="/myblog/assets/js/13.806562d0.js"><link rel="prefetch" href="/myblog/assets/js/14.01beda06.js"><link rel="prefetch" href="/myblog/assets/js/15.e50f1950.js"><link rel="prefetch" href="/myblog/assets/js/17.1692286c.js"><link rel="prefetch" href="/myblog/assets/js/18.1ca7f298.js"><link rel="prefetch" href="/myblog/assets/js/19.c04dfa85.js"><link rel="prefetch" href="/myblog/assets/js/6.6f9b9ed9.js"><link rel="prefetch" href="/myblog/assets/js/7.7da3b1a3.js"><link rel="prefetch" href="/myblog/assets/js/8.2d38c4a0.js"><link rel="prefetch" href="/myblog/assets/js/9.f5ba70e6.js"><link rel="prefetch" href="/myblog/assets/js/vuejs-paginate.14c0cfca.js">
+    <link rel="stylesheet" href="/myblog/assets/css/0.styles.f82f62f8.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="vuperess-theme-blog__global-layout"><section id="header-wrapper"><header id="header"><div class="header-wrapper"><div class="title"><a href="/myblog/" class="nav-link home-link">张三千的博客 不积跬步，无以至千里；不积小流，无以成江海
+        </a></div> <div class="header-right-wrap"><ul class="nav"><li class="nav-item"><a href="/myblog/" class="nav-link">博客</a></li><li class="nav-item"><a href="/myblog/tag/" class="nav-link">分类</a></li></ul> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div></div></div></header></section> <div id="mobile-header"><div class="mobile-header-bar"><div class="mobile-header-title"><a href="/myblog/" class="nav-link mobile-home-link">张三千的博客 不积跬步，无以至千里；不积小流，无以成江海
+      </a> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div> <div class="mobile-menu-wrapper"><hr class="menu-divider"> <ul class="mobile-nav"><li class="mobile-nav-item"><a href="/myblog/" class="nav-link">博客</a></li><li class="mobile-nav-item"><a href="/myblog/tag/" class="nav-link">分类</a></li></ul></div></div></div> <div class="content-wrapper"><div id="vuperess-theme-blog__post-layout"><div class="vuepress-blog-theme-content"><div class="content__default"><h1 id="react-16-x-新的生命周期的理解"><a href="#react-16-x-新的生命周期的理解" class="header-anchor">#</a> react 16.x 新的生命周期的理解</h1> <h2 id="react-组件的生命周期"><a href="#react-组件的生命周期" class="header-anchor">#</a> react 组件的生命周期</h2> <ul><li>构建期：constructor-&gt;getDerivedStateFromProps-&gt;render-&gt;react更新dom和refs-&gt;componentDidMount</li> <li>更新期：在new props 、setState()、forceUpdate()时react处于更新期：getDerivedStateFromProps=&gt;shouldComponentUpdate=&gt;render=&gt;getSnapshotBeforeUpdate=&gt;
+react更新dom和refs=&gt;componentDidUpdate</li> <li>卸载期：componentWillUnmount</li></ul> <h4 id="constructor-props"><a href="#constructor-props" class="header-anchor">#</a> constructor(props)</h4> <ul><li>es6 class类的构造函数，在类构建示例时执行，参数为props，即父组件传给子组件的信息；</li> <li>super(props)，调用基类的构造函数，也将父组件的props注入给子组件，react是单向数据流，因此props只能读，不能改变</li> <li>该生命周期用来做一些组件的初始化工作，如定义this.state的初始内容；</li></ul> <div class="language- extra-class"><pre class="language-text"><code>constructor(props) {
+        super(props); // super 作用：在constructor中能使用this
+        this.state = {
+        }
+    }
+</code></pre></div><h4 id="static-getderivedstatefromprops-nextprops-currentstate"><a href="#static-getderivedstatefromprops-nextprops-currentstate" class="header-anchor">#</a> static getDerivedStateFromProps(nextProps,currentState)</h4> <ul><li>react 16 新增的生命周期,是个静态函数，且是无副作用的纯函数，返回一个对象来更改state（返回null表示不更新state）；</li> <li>在构建组件和组件每次更新时都会调用；</li></ul> <p>  getDerivedStateFromProps翻译成中文是：从props获取的派生的state，该钩子函数主要是用于props发生变化时，是否要更改state，如果要对比前后props变化来做出一些判断，请移步到shouldComponentUpdate钩子函数里来操作，或者在constructor通过props来初始化state，然后通过nextProps和currentState（此时的currentState == 之前的props）来做出判断，但是如果组件通过setState来更新了组件的状态，那么通过这种方法判断不了props前后的变化，所以 <em><strong>该钩子函数更好的用法是基于对nextProps和currentState的对比来更改state</strong></em>。</p> <p>  该钩子函数有两个参数：nextProps，currentState。nextProps下次获取到的props，currentState表示当前state，当组件通过setState改变状态时，调用getDerivedStateFromProps，此时currentState为setState之后的值,但是此时this.state没有改变，在此钩子函数里访问this.state(可以通过把this挂载到一个变量上，然后在此钩子函数里通过访问这个变量来间接访问this)，state也为setState之后的值，记住，<em><strong>currentState为setState之后的值，但是此时的state未改变，而shouldComponentUpdate的第二个参数nextState为setState之后的值，在shouldComponentUpdate访问this.state为setState之前的值</strong></em>。</p> <div class="language- extra-class"><pre class="language-text"><code>import React from 'react';
+let app = null;
+class User extends React.Component {
+	constructor(props){
+		super(props)
+		this.state = {
+			name:&quot;&quot;,
+			age:&quot;&quot;,
+			lesson:&quot;&quot;
+		}
+	}
+	static getDerivedStateFromProps(nextProps, currentState) {
+		// console.log(&quot;user, getDerivedStateFromProps&quot;,nextProps,currentState)
+		return null
+	}
+	render() {
+		const {
+			name,
+			age,
+			lesson,
+			...rest
+		} = this.props
+		return (
+			&lt;div {...rest}&gt;
+				{name} - {age} - {lesson}
+			&lt;/div&gt;
+		);
+	}
+}
+class App extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			name: 'ryan',
+			age: 30,
+			lesson: 'react'
+		}
+	}
+	static getDerivedStateFromProps(nextProps, currentState ) {
+		console.log(&quot;getDerivedStateFromProps&quot;,currentState )
+		console.log(&quot;getDerivedStateFromProps&quot;,app)
+		return null
+	}
+	shouldComponentUpdate(nextProps, nextState) {
+		console.log(&quot;shouldComponentUpdate&quot;,nextState,this.state);
+		console.log(&quot;shouldComponentUpdate app&quot;,app.state)
+		return true
+	}
+	getSnapshotBeforeUpdate(prevProps, prevState) {
+		console.log(&quot;getSnapshotBeforeUpdate&quot;,prevProps, prevState)
+		return null
+	}
+	componentDidUpdate(){
+
+	}
+	componentDidMount(){
+		app = this;
+	}
+	render() {
+		let {
+			name,
+			age,
+			lesson
+		} = this.state
+		console.log(&quot;render&quot;,this.state)
+		return (
+			&lt;div&gt;
+				&lt;User
+					name={name}
+					age={age}
+					lesson={lesson}
+					style={{ color: 'red' }}
+					onClick={() =&gt; {
+						this.setState({
+							name: &quot;讲为甚&quot;
+						},()=&gt;{
+							console.log(&quot;setState&quot;,this.state)
+						})
+					}}
+					onMouseOver={() =&gt; {
+
+					}}
+				/&gt;
+			&lt;/div&gt;
+		)
+	}
+}
+export default App;
+
+</code></pre></div><p>点击之后，控制台打印</p> <div class="language- extra-class"><pre class="language-text"><code>getDerivedStateFromProps: {name: &quot;讲为甚&quot;, age: 30, lesson: &quot;react&quot;}
+getDerivedStateFromProps this.state === currentState: false
+getDerivedStateFromProps this.state: {name: &quot;ryan&quot;, age: 30, lesson: &quot;react&quot;}
+shouldComponentUpdate: {name: &quot;讲为甚&quot;, age: 30, lesson: &quot;react&quot;}
+shouldComponentUpdate this.state: true
+shouldComponentUpdate this.state: {name: &quot;ryan&quot;, age: 30, lesson: &quot;react&quot;}
+</code></pre></div><h4 id="componentdidmount"><a href="#componentdidmount" class="header-anchor">#</a> componentDidMount</h4> <ul><li>该钩子函数用于组件挂载完成时调用，在组件的整个生命周期，只执行一次。</li> <li>该钩子函数一般用于ajax请求的初始化赋值state</li></ul> <h4 id="shouldcomponentupdate-nextprops-nextstate"><a href="#shouldcomponentupdate-nextprops-nextstate" class="header-anchor">#</a> shouldComponentUpdate(nextProps,nextState)</h4> <ul><li>该钩子函数主要用于减少组件的重复的渲染次数</li></ul> <p>react 当父组件更新时，不管自组件的props是否又变换，子组件都会重新渲染，所以，该钩子函数主要用于对比前后props的变化，前后state的变化来阻止组件的重复渲染</p> <ul><li>react 新的构建组件的类，pureCompenent 可以自动对比浅层的props的变化来是否更新组件，对于对象深层次嵌套是不能对比的，且在该类中使用了shouldComponentUpdate之后，就不会起作用了。</li> <li>通过setState改变的state，在此钩子函数中，还没改变，访问this.state 将获取到setState 之前的值，此钩子函数的第二个参数nextState为setState之后的值。</li></ul> <h4 id="render"><a href="#render" class="header-anchor">#</a> render</h4> <p>通过diff算法，调用react.createElement()方法，生成新的虚拟dom，此时的state已经改变，state为setState之后的值</p> <h4 id="getsnapshotbeforeupdate-prevprops-prevstate"><a href="#getsnapshotbeforeupdate-prevprops-prevstate" class="header-anchor">#</a> getSnapshotBeforeUpdate(prevProps, prevState)</h4> <p>在render 函数之后调用，在更新dom及ref之前调用，return 之后的数据将作为第三个参数传递给被componentDidUpdate接收到，此时的state已经改变，是setState之后的值。</p> <h4 id="componentdidupdate-prevprops-prevstate-data"><a href="#componentdidupdate-prevprops-prevstate-data" class="header-anchor">#</a> componentDidUpdate(prevProps, prevState, data)</h4> <p>第三个参数为getSnapshotBeforeUpdate return 之后的数据。主要用于dom更新完成之后的一些操作。</p> <h2 id="父子组件生命周期的先后顺序"><a href="#父子组件生命周期的先后顺序" class="header-anchor">#</a> 父子组件生命周期的先后顺序</h2> <h3 id="构建期"><a href="#构建期" class="header-anchor">#</a> 构建期</h3> <p>父constructor-&gt;父static getDerivedStateFromProps-&gt;父 render-&gt; 子constructor-&gt;子static getDerivedStateFromProps-&gt;子 render-&gt;子componentDidMount-&gt;父componentDidMount</p> <p><em><strong>总结：父组件先render，子组件先挂载</strong></em></p> <h3 id="父组件更新时"><a href="#父组件更新时" class="header-anchor">#</a> 父组件更新时</h3> <p>父static getDerivedStateFromProps-&gt;父 render-&gt;子static getDerivedStateFromProps-&gt;子 render-&gt;子componentDidUpdate-&gt;父componentDidUpdate</p> <p><em><strong>总结：父组件先render，子组件先完成更新</strong></em></p></div> <hr> <!----></div> <div class="sticker vuepress-toc"><div class="vuepress-toc-item vuepress-toc-h2 active"><a href="#react-组件的生命周期" title="react 组件的生命周期">react 组件的生命周期</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#父子组件生命周期的先后顺序" title="父子组件生命周期的先后顺序">父子组件生命周期的先后顺序</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#构建期" title="构建期">构建期</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#父组件更新时" title="父组件更新时">父组件更新时</a></div></div></div></div> <footer class="footer" data-v-0d113134><div class="footer-left-wrap" data-v-0d113134><ul class="contact" data-v-0d113134><li class="contact-item" data-v-0d113134><a href="https://github.com/ulivz" target="_blank" rel="noopener noreferrer" class="nav-link external" data-v-0d113134><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github" data-v-0d113134><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" data-v-0d113134></path></svg>
+          
+        </a></li><li class="contact-item" data-v-0d113134><a href="https://twitter.com/_ulivz" target="_blank" rel="noopener noreferrer" class="nav-link external" data-v-0d113134><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter" data-v-0d113134><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" data-v-0d113134></path></svg>
+          
+        </a></li></ul></div> <div class="footer-right-wrap" data-v-0d113134><ul class="copyright" data-v-0d113134><li class="copyright-item" data-v-0d113134><a href="https://policies.google.com/privacy?hl=en-US" target="_blank" rel="noopener noreferrer" class="nav-link external" data-v-0d113134>Privacy Policy</a></li><li class="copyright-item" data-v-0d113134><a href="/myblog/2019/11/21/react-16-%E6%96%B0%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9A%84%E7%90%86%E8%A7%A3/.html" class="nav-link" data-v-0d113134>MIT Licensed | Copyright © 2018-present Vue.js</a></li></ul></div></footer></div><div class="global-ui"></div></div>
+    <script src="/myblog/assets/js/app.c3e76545.js" defer></script><script src="/myblog/assets/js/4.e0b45d6f.js" defer></script><script src="/myblog/assets/js/5.bc987a91.js" defer></script><script src="/myblog/assets/js/16.83dcc4fb.js" defer></script>
+  </body>
+</html>

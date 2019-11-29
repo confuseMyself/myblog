@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>webpack 基础知识 | 张三千的博客 不积跬步，无以至千里；不积小流，无以成江海</title>
+    <meta name="description" content="This is a blog example built by VuePress">
+    
+    
+    <link rel="preload" href="/myblog/assets/css/0.styles.f82f62f8.css" as="style"><link rel="preload" href="/myblog/assets/js/app.c3e76545.js" as="script"><link rel="preload" href="/myblog/assets/js/4.e0b45d6f.js" as="script"><link rel="preload" href="/myblog/assets/js/5.bc987a91.js" as="script"><link rel="preload" href="/myblog/assets/js/18.1ca7f298.js" as="script"><link rel="prefetch" href="/myblog/assets/js/1.f02aae8f.js"><link rel="prefetch" href="/myblog/assets/js/10.2cacd6b3.js"><link rel="prefetch" href="/myblog/assets/js/11.b15ee8dd.js"><link rel="prefetch" href="/myblog/assets/js/12.1cf23e8d.js"><link rel="prefetch" href="/myblog/assets/js/13.806562d0.js"><link rel="prefetch" href="/myblog/assets/js/14.01beda06.js"><link rel="prefetch" href="/myblog/assets/js/15.e50f1950.js"><link rel="prefetch" href="/myblog/assets/js/16.83dcc4fb.js"><link rel="prefetch" href="/myblog/assets/js/17.1692286c.js"><link rel="prefetch" href="/myblog/assets/js/19.c04dfa85.js"><link rel="prefetch" href="/myblog/assets/js/6.6f9b9ed9.js"><link rel="prefetch" href="/myblog/assets/js/7.7da3b1a3.js"><link rel="prefetch" href="/myblog/assets/js/8.2d38c4a0.js"><link rel="prefetch" href="/myblog/assets/js/9.f5ba70e6.js"><link rel="prefetch" href="/myblog/assets/js/vuejs-paginate.14c0cfca.js">
+    <link rel="stylesheet" href="/myblog/assets/css/0.styles.f82f62f8.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="vuperess-theme-blog__global-layout"><section id="header-wrapper"><header id="header"><div class="header-wrapper"><div class="title"><a href="/myblog/" class="nav-link home-link">张三千的博客 不积跬步，无以至千里；不积小流，无以成江海
+        </a></div> <div class="header-right-wrap"><ul class="nav"><li class="nav-item"><a href="/myblog/" class="nav-link">博客</a></li><li class="nav-item"><a href="/myblog/tag/" class="nav-link">分类</a></li></ul> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div></div></div></header></section> <div id="mobile-header"><div class="mobile-header-bar"><div class="mobile-header-title"><a href="/myblog/" class="nav-link mobile-home-link">张三千的博客 不积跬步，无以至千里；不积小流，无以成江海
+      </a> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div> <div class="mobile-menu-wrapper"><hr class="menu-divider"> <ul class="mobile-nav"><li class="mobile-nav-item"><a href="/myblog/" class="nav-link">博客</a></li><li class="mobile-nav-item"><a href="/myblog/tag/" class="nav-link">分类</a></li></ul></div></div></div> <div class="content-wrapper"><div id="vuperess-theme-blog__post-layout"><div class="vuepress-blog-theme-content"><div class="content__default"><h1 id="webpack-基础知识"><a href="#webpack-基础知识" class="header-anchor">#</a> webpack 基础知识</h1> <p>1、前端工程化</p> <p><em><strong>我对前端工程化的理解</strong></em></p> <p>参考维基百科对软件工程的定义：将系统化的、规范的、可度量的方法用于软件的开发、运行和维护的过程，即将工程化应用于软件开发中。
+故名思议，前端工程化也就是将系统化的、规范的、可度量的方法用于前端的开发、运行和维护的过程。可以简单的理解成系统化，模块化，规范化的过程。
+现如今，webApp业务日益复杂化和多元化，前端开发已经由以WebPage模式为主转变为以WebApp模式为主了。现在随便找个前端项目，都已经不是过去的拼个页面+搞几个jQuery插件就能完成的了。
+工程复杂了就会产生许多问题，比如：如何进行高效的多人协作？如何保证项目的可维护性？如何提高项目的开发质量？...等等一系列的工程化问题，前端工程化就是为了解决这些工程问题，提高
+整个系统生产效率。</p> <ul><li>工程化是系统化、模块化、规范化的过程；</li> <li>工程化主要解决“如何提高整个系统生产效率”的问题</li></ul> <p>前端工程化的主要改变在哪些方面</p> <ul><li>工具：需要用到更多的自动化机械，更多的脚手架</li> <li>人员：协作的人开始变得更多，需要有一定的机制保障合作的顺畅</li> <li>编写代码方式：大量的用到预制模版，用组件化的方式写项目</li></ul> <hr> <p>2、webpack主要功能</p> <ul><li>编译：JavaScript，css编译</li> <li>文件的压缩，打包，合并，公共模块提取等</li> <li>图片等资源的处理如压缩图片、合并雪碧图</li> <li>Tree-shaking等优化JavaScript工具</li> <li>webpack-dev-server，eslint，热更新等帮助开发的工具</li></ul> <hr> <p>3、webpack 安装</p> <ul><li>安装node</li> <li>全局安装 npm install webpack -g;(webpack4.0还需要全局安装webpack-cli)</li></ul> <hr> <p>4、webpack 核心概念和基础使用</p> <ol><li>webpack配置文件 webpack.config.js 的重要性</li></ol> <pre><code>- 配置文件是webpack打包的依据，webpack如何打包，打包成什么样，全都由配置文件来指定
+- 对于webpack，我们的主要工作也是编写、修改webpack的配置文件
+- webcpack配置文件的核心概念：Entry和Output，loader，plugin
+</code></pre> <ol start="2"><li>webcpack配置文件的核心概念：Entry和Output，loader，plugin的理解</li></ol> <pre><code>- Entry：Entry是webpack的打包入口：代码从这里开始编译，程序开始的起点
+- Output: Output是webpack打包的出口：最终的打包结果会根据output的定义输出，会影响到资源的路径
+
+    module.exports = {
+      //entry:'./app.js',
+      //entry:['./app.js','./app2.js'], // 将两个入口文件打包成一个入口文件
+    
+      // 将入口文件打包成多个入口文件
+      entry: {
+          app111: './app.js',
+          app222: &quot;./app2.js&quot;,
+      },
+      output: {
+          path: __dirname + '/src/mybundle', // 指定打包的文件夹
+          filename: './js/[name].[hash:6].js'  // 指定打包后文件存放的文件夹和打包后问价的名字
+      },
+      // 打包规则，编译规则
+      module: {
+          // 打包规则，编译规则
+          rules: [
+            {
+                test: /\.js$/, // 匹配js的文件
+                use: [
+                  {
+                      loader: 'babel-loader', // 编译es6
+                      option: {}, // loader的配置项 // loader的顺序是从后往前执行
+                  }
+                ]
+            }
+          ]
+      }
+    }
+
+- plugin：webpack插件plugin是webpack的额外扩展：一些插件式的额外功能由plugin定义，帮助webpack优化代码，提供功能；plugin有的是webpack自带的，有的需要额外安装
+</code></pre> <p>3.常用的loader列举，loader 是 对某种类型的文件的解析，loader的顺序是从下往上加载的</p> <pre><code>- css：css-loader,style-loader 等css处理loader
+- url-loader,image-loader 等图片字体文件等资源的处理loader
+- less-loader,sass-loader,babel-loader 等编译的loader
+- 语法糖的loader，比如vue-loader
+</code></pre> <p>4.常用的plugin列举</p> <pre><code>- commonsChunkPlugin:提取公共模块，uglifyjsWebpackPlugin:减少js体积，PurifyCSS:优化css体积；
+- HtmlWepackPlugin:把打包结果再打包一个html，把打包结果自动的引入该html中;HotModuleReplagementPlugin：热更新插件
+</code></pre> <hr> <p>5、用webpack开始一次打包</p> <p><em><strong>直接指定出口与入口</strong></em></p> <div class="language- extra-class"><pre class="language-text"><code>webpack-cli --entry &lt;entry&gt; --output &lt;output&gt;
+</code></pre></div><p><em><strong>通过配置文件打包</strong></em></p> <p>不指定配置文件名打包：直接在命令行输入webpack</p> <p>指定配置文件名打包：</p> <div class="language- extra-class"><pre class="language-text"><code>webpack --config &lt;configfile&gt;
+</code></pre></div><p><em><strong>全局webpack和局部webpack</strong></em></p> <pre><code>- 全局webpack：通过-g安装的webpack为全局webpack，可以在命令行里直接输入webpack命令的为全局webpack
+- 局部webpack：在项目文件夹下安装的webpack，即安装在项目文件夹里的node_modules里；局部webpack的作用：当我们的项目需求的webpack版本和我们全局的webpack版本不一致时，就需要安装局部的webpack
+- 安装局部webpack：npm installwebpack --save-dev
+- 使用局部webpack打包：通过在package.json script 增加一个命令，build：webpack ，在命令行里通过 使用 npm run build ，可以优先使用局部webpack打包
+</code></pre> <hr> <p>6、JavaScript的编译</p> <ul><li><p>编译es6语法： babel-loader, @babel/core （babel-loader是编译es6、es7的语法的） ，babel-preset:储存JavaScript不同标准的插件，通过使用正确的presets，告诉babel按照哪个规则编译；</p> <p>module.exports = {
+entry: {
+app: './app.js'
+},</p> <pre><code> output: {
+     filename: '[name].[hash:8].js'
+ },
+ module:{
+ 	rules:[
+ 	 {
+         /**
+          * 编译js，主要是将es6，es7的语法编译成浏览器支持的es5，
+          * 所需要的loader：babel-loader，@babel/core（用来解析babel-loader的）；
+          * 除了安装上述两个babel的loader之外，还必须安装babel的插件，babel-preset的插件,告诉babel按照哪个规范编译
+          * babel-preset是存储JavaScript不同标准的插件，通过使用正确presets，告诉babel按照哪个规范编译；
+          * presets的常见规范：es2015，es2016,es2017,env(es2015，es2016,es2017以及多种浏览器的支持规范,通常采用),babel-preset-stage
+          *
+          * 
+          */
+ 	 	test:/\.js$/, 
+ 	 	use:{
+              loader:'babel-loader',// 需要通过npm安装babel-loader，@babel/core，才能使用babel
+              option:{
+                 presets:[
+                     [
+                         &quot;@babel/preset-env&quot;, // 需要通过npm 安装@babel/preset-env这个babel插件
+                         {
+                             targets:{
+                                 browsers:[&quot;&gt;1%&quot;] //配置安装全世界浏览器占有率超过1%的兼容的js打包
+                             }
+                         }
+                     ]
+                 ]
+              }
+ 	 	}
+ 	 },
+ 	]
+ }
+</code></pre> <p>}</p></li> <li><p>编译es6、es7的方法（比如promise等方法，async）：babel-polyfill,babel-plugin-transform-runtime babel-runtime</p></li></ul> <p><em><strong>babel-polyfill</strong></em></p> <pre><code>  ```
+    /**
+    * babel只能编译es6、es7的语法，如果要编译es6的方法，则需要用到babel-polyfill
+    * 通过npm 安装 babel-polyfill
+    * 在入口文件里引入babel-polyfill 即可使用
+    * babel-polyfill 的原理：在全局用es5重写了es6的方法；
+    * babel-polyfill缺点会使项目体积增大
+    */
+    import &quot;babel-polyfill&quot;; 
+    new Promise(setTimeout(()=&gt;{
+      console.log(1);
+    }));
+    async function a(){
+    
+    }
+  ```
+</code></pre> <p><em><strong>babel-plugin-transform-runtime babel-runtime 生效方式</strong></em></p> <pre><code>```
+  module.exports = {
+      entry: {
+          app: './app.js'
+      },
+  
+      output: {
+          filename: '[name].[hash:8].js'
+      },
+      module:{
+        rules:[
+        {
+              /**
+              * 编译js，主要是将es6，es7的语法编译成浏览器支持的es5，
+              * 所需要的loader：babel-loader，@babel/core（用来解析babel-loader的）；
+              * 除了安装上述两个babel的loader之外，还必须安装babel的插件，babel-preset的插件,告诉babel按照哪个规范编译
+              * babel-preset是存储JavaScript不同标准的插件，通过使用正确presets，告诉babel按照哪个规范编译；
+              * presets的常见规范：es2015，es2016,es2017,env(es2015，es2016,es2017以及多种浏览器的支持规范,通常采用),babel-preset-stage
+              */
+          test:/\.js$/, 
+          use:{
+                  loader:'babel-loader',// 需要通过npm安装babel-loader，@babel/core，才能使用babel
+                  option:{
+                      presets:[
+                          [
+                              &quot;@babel/preset-env&quot;, // 需要通过npm 安装@babel/preset-env这个babel插件
+                              {
+                                  targets:{
+                                      browsers:[&quot;&gt;1%&quot;] // 配置全世界浏览器占有率超过1%的兼容的js打包
+                                  }
+                              }
+                          ]
+                      ],
+                      /**
+                      * 对es6的方法的编译：babel-plugin-transform-runtime babel-runtime 
+                      * npm 安装 babel-plugin-transform-runtime babel-runtime，
+                      * 注意：babel-plugin-transform-runtime babel-runtime 作为babel的插件，必须跟@babel/core的版本相同
+                      * 如果之前安装@babel/core，则安装runtime时必须安装@babel版本的runtime
+                      * npm install @babel/plugin-transform-runtime @babel/runtime 
+                      * babel-plugin-transform-runtime 原理：生成用es5重写es6的局部对象，对没有使用es6到的方法则不会重写；
+                      */
+                      plugins:[
+                          [
+                              &quot;@babel/transform-runtime&quot;
+                          ]
+                      ]
+                  }
+          }
+        },
+        ]
+      }
+  }
+```
+</code></pre> <ul><li>编译es6、es7的语法糖：装饰器，ts,vue,jsx等等<div class="language- extra-class"><pre class="language-text"><code>webpack.config.js
+
+    module.exports = {
+        entry: {
+            app: './app.js'
+        },
+    
+        output: {
+            filename: '[name].[hash:8].js'
+        },
+        module:{
+          rules:[
+                
+            /**
+              * 编译es6，es7的语法糖，以ts为列
+              * npm 安装 typescript ts-loader；
+              * 新建一个tsconfig.json 配置文件
+              */
+            {
+                test:/\.tsx?$/,
+                use:'ts-loader' // npm 安装ts-loader
+            }
+          ]
+        }
+    }
+
+tsconfig.json
+
+    {
+      &quot;compilerOptions&quot;:{
+        &quot;module&quot;:&quot;commonjs&quot;,
+        &quot;target&quot;:&quot;es5&quot;,
+      },
+      &quot;exclude&quot;:[&quot;./node_modules&quot;]
+    }
+</code></pre></div></li></ul> <hr> <p>7、css的编译和处理</p> <ul><li><p>如何引入css文件</p> <p>webpack是以js为入口打包的，那么项目的css怎么引入？</p> <p>css可以通过js文件引入，但必须使用相应的loader</p> <ol><li>css-loader，让css可以被js正确的引入</li> <li>style-loader，让css被引入后可以被正确的以一个style标签插入页面</li> <li>两者的顺序很重要，要先经过css-loader处理，再由style-loader处理。</li></ol></li> <li><p>style-loader的核心配置</p> <ol><li>insertAt    style标签插入在哪一块区域</li> <li>insertInto 插入指定的dom</li> <li>singleton 是否合并为一个style标签</li> <li>transform 在浏览器环境下，插入style到页面前，用js对css进行操作</li></ol> <div class="language- extra-class"><pre class="language-text"><code>      use:[
+          {
+              loader:&quot;style-loader&quot;,
+              options:{
+                  insertAt:&quot;top&quot; , // 将style标签插入到head的哪个位置，top表示head头，bottom表示head						   // 尾，默认为尾，参数也可以是个对象，
+                  insertAt:{
+                      before:&quot;#mydiv&quot;, // 表示将style标签插入到某个div前面,一般不会指定
+                  },
+                  singleton:true, // 将style标签合并，默认为false
+                  transform:&quot;./transform.js&quot;, // 在浏览器环境下，插入style到页面前，指定js文件对css进                                         // 行操作，指定的路径为相对路径
+              }
+          }
+      ]
+      // transform.js
+        module.exports=function(css){
+        // 里面可以操作window对象
+        // css是字符串，只能对字符串进行操作；
+        if(window.screen.width&lt;500){
+          css=css.replace('red','yellow');
+        }
+        return css;
+      }
+</code></pre></div></li> <li><p>css-loader的核心配置</p> <ol><li>minimize 是否压缩css，webpack4.x中移除</li> <li>module 是否使用css模块化</li> <li>alias css中的全局别名 webpack4.x 移除</li></ol> <div class="language- extra-class"><pre class="language-text"><code>  use:[
+      {
+          loader:&quot;style-loader&quot;,
+          options:{
+              insertAt:&quot;top&quot; , // 将style标签插入到head的哪个位置，top表示head头，bottom表示head						   // 尾，默认为尾，参数也可以是个对象，
+              insertAt:{
+                  before:&quot;#mydiv&quot;, // 表示将style标签插入到某个div前面,一般不会指定
+              },
+              singleton:true, // 将style标签合并，默认为false
+              transform:&quot;./transform.js&quot;, // 在浏览器环境下，插入style到页面前，指定js文件对css进                                         // 行操作，指定的路径为相对路径
+          },
+          {
+                loader:'css-loader',
+                options:{
+                  modules:{
+                  module:true, // 开启css模块化
+                  localIdentName:'[path][name]_[local]_[hash:4]' // 定制class类名，设置css-modules模式下local类名的命名
+                  }                    
+                } 
+              },
+      }
+  ]
+  
+</code></pre></div></li> <li><p>css module 的使用</p></li></ul> <div class="language- extra-class"><pre class="language-text"><code>          1. :global(.class|#id) 声明全局规则，凡是这样声明的class，都不会被编译成hash字符串
+          :global(#box) {
+          
+              }
+          :global{
+                  #box{
+          
+                  }
+              }
+          2. :local(.class) 在局部作用域中声明选择器，建议使用驼峰式命名，这样可以更容易在 js 中引用
+          3. composes: className 用来组合其他类
+          :local(.className) {
+              // ...
+          }
+          :local(.cn) {
+              composes: className; // 组合局部作用域的规则
+              // composes: className from 'xxx.css'; // 组合其他文件中的规则
+          }
+          // js 中引用
+          import styles from 'index.less';
+          
+          export default const Index = () =&gt; (
+              &lt;div className={styles.appContainer}&gt;
+                  &lt;div className={styles.appBody}&gt;&lt;/div&gt;
+              &lt;/div&gt;
+          );
+          开启了css-module ，必须通过js来控制css，也就是要在js中引入css，通过向js对象一样引用css样式
+</code></pre></div><ul><li><p>less，sass 预处理语言</p> <ol><li>less、sass是css预处理语言，用来帮助我们更方便的写css。更方便团队合作</li> <li>less、sass浏览器无法直接识别，需要编译成css才能被识别。所以我们写的less、sass的文件都需要编译</li> <li>less、sass编译所需loader</li></ol> <p>less所需要的loader
+less
+less-loader</p> <p>sass所需要的loader
+sass-loader
+node-sass</p></li> <li><p>css提取：如何把css提取为单独的文件</p> <ol><li>安装对应的插件：extract-text-webpack-plugin</li> <li>改造loader处的写法：把use改为使用extract-text-webpack-plugin</li> <li>在plugin处添加：把extract-text-webpack-plugin加入到plugin里</li></ol> <div class="language- extra-class"><pre class="language-text"><code>  版本差异：在webpack3.x中：直接安装npm i extract-text-webpack-plugin webpack --save-dev
+  		在webpack4.x中：npm i extract-text-webpack-plugin@next webpack --save-dev
+  		必须在局部安装webpack，因为该插件是用局部的webpack打包的
+  		
+  		
+  var extractTextCss=require('extract-text-webpack-plugin');
+  module.exports= {
+  	entry:{
+  	 app:&quot;./app.js&quot;,
+  	},
+  	output:{
+  		path:__dirname+&quot;/src/dist&quot;,
+  		filename:&quot;./[name].bundle.js&quot;
+  	},
+   	resolve:{
+       alias: {
+         a2:&quot;./js/app2.js&quot;,
+       }
+   	},
+  	module:{
+  		rules: [
+       {
+         test:/\.less$/,
+         use:extractTextCss.extract({
+         // fallback的值是style-loader的配置
+          fallback:{
+             loader:'style-loader',
+             options:{
+              //insertInto:&quot;#mydiv&quot;,
+              singleton:true,
+              transform:&quot;./transform.js&quot;
+             }
+           },
+           // use属性的值是css-loader等其它相关配置
+            use:[     
+             {
+               loader:'css-loader',
+               options:{
+                 modules:{
+                  localIdentName:'[path][name]_[local]_[hash:4]'
+                 }                    
+               } 
+             },
+             // 使用postcss-loader 需安装的loader
+             // cnpm install postcss postcss-loader autoprefixer postcss-cssnext --save-dev
+             // 引入的顺序在css-loader之前，在其它预处理语言之后
+             {
+               loader:'postcss-loader', 
+               options:{
+                ident:'postcss', // 给谁使用的
+                // postcss 使用的插件
+                plugins:[
+                 require('autoprefixer')({
+                     &quot;overrideBrowserslist&quot;:[&quot;&gt;1%&quot;,&quot;last 2 versions&quot;] // 指定浏览器版本，否则不生效
+                 }),
+                 require('postcss-cssnext')() // 兼容下一代css语法
+                ]
+               }
+             },
+             {
+              loader:'less-loader'
+             }        
+            ]         
+         })
+       }
+  		]
+  	},
+    plugins:[
+     new extractTextCss({
+      filename:'[name].min.css'
+     })
+    ]
+  }
+  
+  // 在package.json 中统一配置指定autoprefixer，babel-loader的浏览器版本
+  {
+    &quot;name&quot;: &quot;webpack-3.1.6&quot;,
+    &quot;version&quot;: &quot;1.0.0&quot;,
+    &quot;description&quot;: &quot;&quot;,
+    &quot;main&quot;: &quot;app.js&quot;,
+    &quot;scripts&quot;: {
+      &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;
+    },
+    &quot;keywords&quot;: [],
+    &quot;author&quot;: &quot;&quot;,
+    &quot;license&quot;: &quot;ISC&quot;,
+    &quot;devDependencies&quot;: {
+      &quot;css-loader&quot;: &quot;^3.0.0&quot;,
+      &quot;postcss-cssnext&quot;: &quot;^3.1.0&quot;,
+      &quot;style-loader&quot;: &quot;^0.23.1&quot;
+    },
+    &quot;dependencies&quot;: {
+      &quot;autoprefixer&quot;: &quot;^9.6.1&quot;,
+      &quot;extract-text-webpack-plugin&quot;: &quot;^4.0.0-beta.0&quot;,
+      &quot;less&quot;: &quot;^3.9.0&quot;,
+      &quot;less-loader&quot;: &quot;^5.0.0&quot;,
+      &quot;postcss&quot;: &quot;^7.0.17&quot;,
+      &quot;postcss-loader&quot;: &quot;^3.0.0&quot;,
+      &quot;webpack&quot;: &quot;^4.35.3&quot;
+    },
+    // 在package.json 中统一配置指定autoprefixer，babel-loader的浏览器版本,此处配置了之后，就不用在webpack.config.js 中单独配置了
+    &quot;browserslist&quot;: [
+      &quot;&gt;1%&quot;,
+      &quot;last 2 versions&quot;
+    ]
+  }
+</code></pre></div></li></ul> <hr> <p>8、html的生成</p> <ul><li><p>需要用到的plugin</p> <p>cnpm install html-webpack-plugin --save-dev</p></li> <li><p>相关配置</p> <p>filename：打包生成后html文件的名字，必须的，相对路径</p> <p>template：指定一个html文件为模版，必须的，相对路径</p> <p>minify：压缩html</p> <p>inject：是否把js，css文件插入到html，插入到哪</p> <p>chunks：多入口时，指定引入chunks,不配置该属性，则表示全部引入</p> <div class="language- extra-class"><pre class="language-text"><code>  var extractTextCss=require('extract-text-webpack-plugin'); // css代码分离
+  var htmlWebpackPlugin=require('html-webpack-plugin'); // 生成html文件
+  module.exports= {
+   ...
+  	// webpack引入的插件
+    plugins:[
+     new extractTextCss({
+      filename:'[name].min.css'
+     }),
+     new htmlWebpackPlugin({
+     	filename:&quot;index.html&quot;, // 必须，指定输入的html文字
+     	template:&quot;./index.html&quot;,// 必须,指定html模版
+      chunks:['app'] // 指定引入的入口文件打包之后的文件
+     })
+    ]
+  }
+</code></pre></div><hr></li></ul> <p>9、cross-env：运行跨平台设置和使用环境变量的脚本</p> <p>要理解 process.env.NODE_ENV 就必须要了解 process，process 是 node 的全局变量，并且 process 有 env 这个属性 ,可以通过cross-env 设置运行跨平台设置和使用环境变量的脚本。</p> <p>作用：当我们使用 NODE_ENV = production 来设置环境变量的时候，大多数windows命令会提示将会阻塞或者异常，或者，windows不支持NODE_ENV=development的这样的设置方式，会报错。因此 cross-env 出现了。我们就可以使用 cross-env命令，这样我们就不必担心平台设置或使用环境变量了。也就是说 cross-env 能够提供一个设置环境变量的scripts，这样我们就能够以unix方式设置环境变量，然而在windows上也能够兼容的。</p> <ul><li><p>安装：npm i cross-env --save-dev</p></li> <li><p>在package.json中的script命令如下设置</p> <div class="language- extra-class"><pre class="language-text"><code>  &quot;scripts&quot;: {
+      &quot;pre&quot;: &quot;yarn --registry https://registry.npm.taobao.org || npm install --registry https://registry.npm.taobao.org &quot;,
+      &quot;dev&quot;: &quot;cross-env NODE_ENV=development webpack --config webpack.dev.config.js&quot;,
+      &quot;build&quot;: &quot;cross-env NODE_ENV=production webpack --config webpack.dev.config.js&quot;,
+      &quot;lint&quot;: &quot;vue-cli-service lint&quot;
+    },
+</code></pre></div><p>通过这样设置 就可以在项目中的任何文件中使用</p> <p>let env = process.env.NODE_ENV</p></li></ul> <hr> <p>10、webpack的环境</p> <ul><li><p>为什么要区分环境</p> <p>在不同的场景下可能需要不同的配置，使用不同的功能，所以要区分环境。</p> <p>比如：</p> <p>开发模式：会额外用到一些调试功能，比如webpack-dev-server，但是为了加快调试速度，可能不会用上压缩，tree-shaking之类的功能</p> <p>生产模式：为了减少文件体积，会使用压缩，tree-shaing等功能，但是不要如webpack-dev-server或者eslint这样的调试工具</p></li> <li><p>具体列举一下生产环境和开发环境的不同</p> <p><em><strong>生产环境</strong></em></p> <p>去除无用代码</p> <p>图片压缩，转码base64，雪碧图</p> <p>提取公用代码</p> <p><em><strong>开发环境</strong></em></p> <p>webpack-dev-server  配置代理</p> <p>source-map</p> <p>代码风格检查</p> <p><em><strong>如何告诉webpack当前环境</strong></em></p> <p>命令：webpack --env  ｛name｝</p> <ol><li>把开发环境和生产环境的共同配置（公共代码）提取出来，命名为webpack.common.js</li> <li>开发环境单独配置webpack代码，并且引入webpack的共同配置，命名为webpack.dev.js</li> <li>生产环境单独配置 webpack代码，并且引入webpack的共同配置，命名为webpack.pro.js</li> <li>如果是开发环境，使用命令 webpack --config  webpack.dev.js --env dev，进行开发调试</li> <li>如果是生产环境，使用命令webpack --config  webpack.pro.js --env pro，进行打包</li></ol> <div class="language- extra-class"><pre class="language-text"><code>    // webpack.common.js 公共环境的配置文件：生产环境和开发环境都需要的配置提取出来
+    const webpack=require('webpack');
+    const extractTextCss=require('extract-text-webpack-plugin'); // 提取css代码
+    const dev=require('./webpack.dev.js');  // 引入开发环境的特殊配置
+    const pro=require('./webpack.pro.js');  // 引入生产环境的特殊配置
+    const merge=require('webpack-merge');  // webpack-merge做了两件事：它允许连接数组并合并对象，而不是									 //	覆盖组合。把不同的环境下的webpack配置和公共环境的配置文件                                        // 合并到一起
+    module.exports=env=&gt;{
+      var postPlugins=[require('autoprefixer')(), require('postcss-cssnext')()];
+      postPlugins.concat(env==='production'?[require('postcss-sprites')({
+                                                spritePath: 'dist/sprite',
+                                                retina: true
+                                            })]:[])
+      //配置对象
+      var common={
+        entry:'./app.js',
+        output:{
+          filename:'bundle.js'
+        },
+        module:{
+            rules: [  
+              //js处理
+              {
+                test:/\.js$/,
+                use:
+                  {
+                    loader:'babel-loader',
+                  }
+              },
+              //css处理
+              {
+                test:/\.less$/,
+                use:extractTextCss.extract({
+                  fallback:{
+                    loader:'style-loader',
+                    options:{
+                      //insertInto:&quot;#mydiv&quot;,
+                      singleton:true,
+                      //transform:&quot;./transform.js&quot;
+                    }
+                  },
+                    use:[       
+                    {
+                      loader:'css-loader',
+                      options:{
+                        modules:{
+                          localIdentName:'[path][name]_[local]_[hash:4]'
+                        }                    
+                      } 
+                    },
+                    {
+                      loader:'postcss-loader',
+                      options:{
+                        ident:'postcss',
+                        plugins:postPlugins
+                      }
+                    },
+                    {
+                      loader:'less-loader'
+                    }        
+                    ]         
+                })
+              },                   
+            ] 
+        },
+        plugins:[
+        //提取额外css文件
+          new extractTextCss({
+            filename:env==='production'?'app.bundle.css':'app.dev.css'
+          })
+        ]
+      };
+      //返回配置对象
+      return merge(common,env==='production'?pro:dev);
+    }
+</code></pre></div></li> <li><p>如何编写不同的配置文件来区分环境</p> <ol><li>编写一个开发环境下的配置文件</li> <li>编写一个生产环境下的配置文件</li> <li>在基础配置引入开发和生产配置</li> <li>判断env参数，合并对应的配置</li></ol> <div class="language- extra-class"><pre class="language-text"><code>  webpack.dev.js
+  const webpack = require('webpack')
+  module.exports={
+      devtool: 'cheap-module-source-map',
+      devServer: {
+          port: 9001,
+          overlay: true,
+          hot: true,
+          hotOnly: true,
+      },
+      plugins: [
+          new webpack.HotModuleReplacementPlugin(), // 热更新
+          new webpack.NamedModulesPlugin(), // 显示模块的相对路径
+      ]	
+  }
+
+  webpack.pro.js
+  var webpack = require('webpack')
+  var HtmlWebpackPlugin = require('html-webpack-plugin'); // 生成html
+  module.exports={
+        optimization: {
+          minimize: false
+        },    
+  	plugins:[
+          new HtmlWebpackPlugin({
+              filename: 'index.html',
+              template: './index.html',
+              minify: {
+                  collapseWhitespace: true // 开启打包
+              },
+              inject:true, // 生成的js，分离的css是否自动插入到html中
+          }),         	
+  	]	
+  }
+</code></pre></div><div class="language- extra-class"><pre class="language-text"><code>  // webpack.common.js 公共环境的配置文件：生产环境和开发环境都需要的配置提取出来
+  const webpack=require('webpack');
+  const extractTextCss=require('extract-text-webpack-plugin'); // 提取css代码
+  const dev=require('./webpack.dev.js');  // 引入开发环境的特殊配置
+  const pro=require('./webpack.pro.js');  // 引入生产环境的特殊配置
+  const merge=require('webpack-merge');  // webpack-merge做了两件事：它允许连接数组并合并对象，而不是									 //	覆盖组合。把不同的环境下的webpack配置和公共环境的配置文件                                        // 合并到一起
+  module.exports=env=&gt;{
+    var postPlugins=[require('autoprefixer')(), require('postcss-cssnext')()];
+    // postcss-sprites是postcss的一个插件，处理雪碧图的
+    postPlugins.concat(env==='production'?[require('postcss-sprites')({
+                                              spritePath: 'dist/sprite',
+                                              retina: true
+                                           })]:[])
+    //配置对象
+    var common={
+       entry:'./app.js',
+       output:{
+       	filename:'bundle.js'
+       },
+       module:{
+          rules: [  
+             //js处理
+             {
+              test:/\.js$/,
+              use:
+                {
+                  loader:'babel-loader',
+                }
+             },
+             //css处理
+             {
+               test:/\.less$/,
+               use:extractTextCss.extract({
+                fallback:{
+                   loader:'style-loader',
+                   options:{
+                    //insertInto:&quot;#mydiv&quot;,
+                    singleton:true,
+                    //transform:&quot;./transform.js&quot;
+                   }
+                 },
+                  use:[       
+                   {
+                     loader:'css-loader',
+                     options:{
+                       modules:{
+                        localIdentName:'[path][name]_[local]_[hash:4]'
+                       }                    
+                     } 
+                   },
+                   {
+                     loader:'postcss-loader',
+                     options:{
+                      ident:'postcss',
+                      plugins:postPlugins
+                     }
+                   },
+                   {
+                    loader:'less-loader'
+                   }        
+                  ]         
+               })
+             },                   
+          ] 
+       },
+       plugins:[
+       //提取额外css文件
+         new extractTextCss({
+          filename:env==='production'?'app.bundle.css':'app.dev.css'
+         })
+       ]
+    };
+    //返回配置对象
+    return merge(common,env==='production'?pro:dev);
+  }
+</code></pre></div></li> <li><p>为了打包方便，在 package.json 里script命令加入命名</p> <div class="language- extra-class"><pre class="language-text"><code>    &quot;scripts&quot;: {
+      &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;,
+      &quot;build&quot;: &quot;webpack --env production --config webpack.common.js&quot;,
+      &quot;dev&quot;: &quot;webpack-dev-server --env development --config webpack.common.js&quot;
+    },
+    &quot;ke
+</code></pre></div></li> <li><p>webpack版本差异</p> <p>在webpack4.x中更简单的环境区分</p> <p>webpack --mode production/development/none</p></li></ul> <hr> <p>11、PostCSS详解</p> <ul><li><p>什么postcss</p> <p>PostCSS基于js插件去转换css的一个工具。这些插件支持变量，mixin，未来的css语法，在线图片甚至更多。</p> <p>所以PostCSS只是一个转化css的工具，让我们更好的去写css；</p></li> <li><p>postcss一些常用的插件</p> <p>autoprefixer是PostCSS最著名的一款插件，用来兼容不同浏览器的css语法，不同浏览器加上css前缀
+postcss-cssnext (内置autoprefixer) 允许你使用未来的css语法，如css4（可以理解为css中的Babel）
+postcss-sprites 自动制作雪碧图，不用手动拼接啦，哈哈哈
+cssnano 压缩css代码(如果你是用webpack的话，css-loader集成了cssnano，你不需要再次引入)
+postcss-hash-classname 把转换后的css文件名附上哈希值
+pixrem 将rem转换为px
+postcss-px-to-viewport 将px转换为vh和vw（推荐作为移动端的计量单位，而不是rem）
+postcss-pxtorem 将px转换为rem</p></li> <li><p>postcss webpack配置</p> <p>详见css的编译和处理</p></li></ul> <hr> <p>12、webpack-dev-server 使用</p> <ul><li><p>什么是webpack-dev-server</p> <p>项目最终都要打包上线，所以最好能模拟线上环境进行开发调试</p> <p>webpack-dev-server就是一个让我们可以模拟线上环境进行项目调试的工具</p> <p>webpack-dev-server 提供的常用功能</p> <p>路径重定向</p> <p>浏览器中显示编译错误</p> <p>接口代理</p> <p>热更新</p></li> <li><p>使用步骤</p> <p>安装webpack-dev-server</p> <p>配置 devServer字段</p> <p>利用命令行开启服务</p></li> <li><p>devServer常用配置</p> <ul><li>inline：服务的开启模式</li> <li>port：代理接口</li> <li>historyApiFallback：路径重定向</li> <li>hot：热更新</li> <li>lazy：懒编译，多入口时，当访问某个入口时，才会对该入口进行编译和服务</li> <li>overlay：错误遮罩</li> <li>proxy：代理请求</li></ul> <div class="language- extra-class"><pre class="language-text"><code> module:...,
+ devServer:{
+         port: 9001, // 代理接口
+         inline:true, // 服务开启模式
+         overlay:true, // 错误遮罩
+         hot:true, // 热更新:在不刷新浏览器的情况下更改代码之后，会在浏览器上面显示更改之后的代码。
+         	      // webpack-dev-server 热更新这个插件，与extract-text-webpack-plugin这个插件不兼                   // 容,所以在开发环境时，需要关闭这个插件，在生产环境时打开这个插件，同时关闭热更新这                   // 个功能。
+         hotOnly:true, // 表示只用热更新，不用dev-loading刷新页面
+         // 对url路径重定向
+         historyApiFallback:{
+           rewrites:[
+            {
+              from:/^\/([ -~]+)/,
+              to:function(context){
+                return './'+context.match[1]+'.html'
+              }
+            }
+           ]
+         },
+         // 代理请求，对webpack-dev-server进行代理转发
+         proxy:{
+           &quot;/smartSpec&quot;:{
+             target:&quot;https://mooc.study.163.com/&quot;,
+             changeOrigin:true, // 把http请求中的origin字段进行变换，在浏览器收到后端回复的时候，浏览                                // 器会以为这个是本地请求，而在后端那边会以为是站内的调用。这样，通过这                                // 个简单的配置，就完美的解决了跨域的问题。
+             // 对代理路径的一些规则配置，
+             // 表示匹配到/smartSpec/qd以这个开头的路径，代理到/smartSpec/detail/1202816603.htm这个             // 路径上面
+             pathRewrite:{
+               &quot;^/smartSpec/qd&quot;:&quot;/smartSpec/detail/1202816603.htm&quot;
+             },
+             // 对代理请求设置请求头的配置
+             headers:{
+                 
+             }
+           },
+ 
+         }
+      },
+       plugins: [
+         new HtmlWebpackPlugin({
+             filename: 'index.html',
+             template: './src/index.html',
+             minify: {
+                 collapseWhitespace: true
+             },
+             inject:true,
+         }),     
+       new extractTextCss({
+         filename:&quot;app.bundle.css&quot;,
+         disable:false //热更新:在不刷新浏览器的情况下更改代码之后，会在浏览器上面显示更改之后的代码。
+         	         // webpack-dev-server 热更新与extract-text-webpack-plugin这个插件不兼                             // 容,所以在开发环境时，需要关闭这个插件，在生产环境时打开这个插件，同时关闭热更                       // 新这个功能。只需要把disable置为false即可。
+       }),
+     ] 
+</code></pre></div></li></ul> <hr> <p>13、souce-map</p> <p>为了方便调试，我们需要知道打包后的代码对应源文件的位置。</p> <ul><li>如果代码有一处错误，无souce-map只能追踪到错误发生在打包后文件的哪个位置，但是打包后的文件就不方便阅读。</li> <li>有了souce-map，就可以查看错误发生在原模块的哪个地方。</li></ul> <p><em><strong>souce-map配置向如下</strong></em></p> <p><code>devtool:'eval-source-map',</code></p> <hr> <p>14、webpack原理解析</p> <ul><li>webpack依赖与node的环境与文件操作系统</li> <li>webpack的打包过程，其实就是利用node去读取文件，然后进行一些字符串处理后，再利用node去写入文件</li></ul> <p>loader原理</p> <p>loader其实是一个方法：接收一个字符串，方法内部处理完后再返回字符串。</p> <div class="language- extra-class"><pre class="language-text"><code>    // resouce表示读取到文件生成的字符串
+    module.exports = function(resouce){
+    
+        var reg = /console.log\((.+?)\)/g;
+    
+        return resouce.replace(reg,&quot;&quot;);
+    
+    }
+</code></pre></div><hr> <p>15、webpack等资源的处理</p> <p><em><strong>需要用到哪些loader</strong></em></p> <ul><li>file-loader：引入各种资源的loader，图片，视频，字体图标等资源</li> <li>url-loader：url-loader是file-loader的二次封装，一般用url-loader来替代file-loader，还增加了一些其它功能；比如把图片转换成base64编码</li> <li>img-loader：用来用来优化图片的，主要用来压缩图片</li> <li>html-loader：处理html里面引入各种资源的loader，默认只会处理某些标签的src属性处理</li></ul> <div class="language- extra-class"><pre class="language-text"><code>      {
+        test: /\.(png|jpg|jgeg|gif)$/,
+
+        use: [
+          // {
+          //   loader: 'file-loader',
+          //   options: {
+          //     //默认是[hash].[ext]
+          //     name: '[name].[hash:4].[ext]', // name为图片原始文件名， ext为后缀名
+          //     outputPath: &quot;assets/img&quot;, // 指定文件打包输出的路径；css里自动会根据打包的路径自动更改为打包后的路径
+          //     publicPath: &quot;assets/img&quot;, // 指定打包后的css路径加的路径前缀
+          //   }
+          // },
+          // url-loader 是file-loader的二次封装，一般用来代替file-loader
+          {
+            loader: 'url-loader',
+            options: {
+              //默认是[hash].[ext]
+              name: '[name].[hash:4].[ext]', // name为图片原始文件名， ext为后缀名
+              outputPath: &quot;assets/img&quot;, // 指定文件打包输出的路径；css里自动会根据打包的路径自动更改为打包后的路径
+              publicPath: &quot;assets/img&quot;, // 指定打包后的css路径加的路径前缀
+              limit: 5000 // 当资源小于5kb时，会把资源转换成base64编码
+            }
+          },
+          // img-loader 用来优化图片的loader，本身不具有功能，通postcss一样，起作用的是其他的插件，相当于一个插槽
+          {
+            loader: 'img-loader',
+            options: {
+              plugins: [
+                // 压缩png
+                require('imagemin-pngquant')({ 
+                  speed: 2  //1-11
+                }),
+                // 压缩jpg
+                require('imagemin-mozjpeg')({
+                  quality: 80  //1-100
+                }),
+                // 压缩gif
+                require('imagemin-gifsicle')({
+                  optimizationLevel: 1   //1,2,3
+                })
+              ]
+            }
+          },
+        ]
+      },
+      // html-loader 处理html里面引入各种资源的loader
+      // 不引入html-loader，可以通过webpack自带的处理方式，模版语法 &lt;img src=&quot;${require('./assets/img/img4.jpg')}&quot;/&gt;
+      // html-loader 默认只会处理某些标签的src属性处理
+      {
+        test: /\.html$/,
+        use: {
+          loader: 'html-loader',
+          options: {
+            attrs: [&quot;img:data-src&quot;]
+          }
+        }
+      },
+      {
+        test: /\.etf$/,
+        use: {
+          loader: 'html-loader',
+          options: {
+            attrs: [&quot;img:data-src&quot;]
+          }
+        }
+      }
+    ]
+  },
+</code></pre></div><p><em><strong>雪碧图的合成</strong></em></p> <table><thead><tr><th>postcss-sprites</th> <th>webpack-spritesmith</th></tr></thead> <tbody><tr><td>属于postcss插件，会自动把css文件中引入的背景图合成雪碧图，并修改css文件</td> <td>属于一个独立的插件，会按照指定的路径指定的图片类型，生成一个雪碧图，和一个雪碧图相关的css，不会修改css</td></tr></tbody></table> <pre><code>```
+  var extractTextCss = require('extract-text-webpack-plugin');
+  var htmlWebpackPlugin = require('html-webpack-plugin');
+  const webpackSpriteSmith = require('webpack-spritesmith') // webpack自带的雪碧图插件
+  const path = require('path');
+  module.exports = {
+    ...
+    module: {
+      rules: [
+        {
+          test: /\.css$/,
+          use: extractTextCss.extract({
+            fallback: {
+              loader: 'style-loader',
+              options: {
+                //insertInto:&quot;#mydiv&quot;,
+                //transform:&quot;./transform.js&quot;
+              }
+            },
+            use: [
+              {
+                loader: 'css-loader',
+                options: {
+                  /*modules:{
+                  localIdentName:'[path][name]_[local]_[hash:4]'
+                  }   */
+                }
+              },
+              // postcss-loader本身不具有功能，起作用的是其他的插件，相当于一个插槽
+              // postcss-loader 放在所有css的loader之后
+              // 确定，按照原图的大小生成雪碧图，所以会存在定位误差
+              {
+                loader: &quot;postcss-loader&quot;,
+                options: {
+                  plugins: [
+                    /* require('postcss-sprites')({
+                      spirtePath:&quot;./dist/assets/sprite&quot; 指定生成的雪碧图存放的位置
+                    })*/
+                  ]
+                }
+              }
+            ]
+          })
+        },
+      ...
+    },
+    plugins: [
+      
+      // webpack自带雪碧图的插件配置
+      new webpackSpriteSmith({
+        src: {
+          //图片来源文件夹
+          cwd: path.join(__dirname, &quot;src/assets/img&quot;),
+          //处理什么图片
+          glob: &quot;*.jpg&quot;
+        },
+        target: {
+          //打包到哪
+          image: path.join(__dirname, 'dist/sprites/sprite.png'),
+          css: path.join(__dirname, 'dist/sprites/sprite.css'),
+        },
+        apiOptions: {
+          cssImageRef: &quot;./sprites/sprite.png&quot;
+        }
+      })
+    ]
+  }
+```
+</code></pre> <hr> <p>16、代码分割，js代码大小控制</p> <table><thead><tr><th>多页</th> <th>单页面应用</th></tr></thead> <tbody><tr><td>提取公共依赖：把多个页面的用到的依赖打包成一个单独的文件</td> <td>减少文件体积，拆分应用；把需要异步加载改成异步加载</td></tr></tbody></table> <ul><li><p>总结起来，打包的一般经验规则</p> <table><thead><tr><th>多页</th> <th>单页面应用</th></tr></thead> <tbody><tr><td>多个入口，多个输出</td> <td>单个入口，单个输出</td></tr> <tr><td>主业务代码+公共依赖+第三房包+webpack运行代码</td> <td>主业务代码+异步模块+第三方包+webpack运行代码</td></tr></tbody></table></li> <li><p>如何进行代码分割</p> <table><thead><tr><th>webpack3.x</th> <th>webpack4.x</th></tr></thead> <tbody><tr><td>webpack自带插件 commonChunksPlugin</td> <td>SplitChunksPlugin 配置</td></tr></tbody></table> <div class="language- extra-class"><pre class="language-text"><code>  var extractTextCss=require('extract-text-webpack-plugin');
+  var htmlWebpackPlugin=require('html-webpack-plugin');
+  const webpackSpriteSmith=require('webpack-spritesmith');
+  const webpack=require('webpack');
+  const UglifyJs=require('uglifyjs-webpack-plugin');
+  const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+  const path=require('path');
+  module.exports= {
+    mode:'production', // webpack4.x之后，把mode设置成production，打包时候会自动开启代码压缩和tree-shaking
+  	entry:{
+  	 app:&quot;./src/app.js&quot;,
+  	},
+  	output:{
+  		path:__dirname+&quot;/dist&quot;,
+  		filename:&quot;./[name].bundle.js&quot;,
+    },
+  
+    // optimization属性是webpack4.x里控制代码分割，代码压缩的配置项
+    optimization:{
+      // 控制代码压缩
+      minimize:true,
+      // webpack4.x 通过配置splitChunks来实现代码分割
+      splitChunks:{
+        name:true,
+        chunks:&quot;all&quot;, // 有三个值：initial(只对入口文件进行分割)、all（对所有文件进行分割）、async（对异步文件进行分割）
+        minSize:0, // 对大小小于多少的进行提取，代码分割，设置为0表示不管模块大小都进行分割
+        // 对模块的自定义提取
+        cacheGroups:{
+          mode1:{
+            test:/mode1/, //正则表达式，匹配文件名为mode1 的模块
+          },
+          vendor:{
+            test:/([\\/node_modules[\\/])/, // 表示提取node_modules里的第三方模块
+            name:&quot;vendor&quot;, // 指定提取出来的名字为vendor
+          },
+        }
+      },
+      // 提出webpack的运行代码
+      runtimeChunk:true
+    },
+  	module:{
+  		rules: [    
+       {
+         test:/\.css$/,
+         use:extractTextCss.extract({
+          fallback:{
+             loader:'style-loader',
+             options:{
+              //insertInto:&quot;#mydiv&quot;,
+              //transform:&quot;./transform.js&quot;
+             }
+           },
+          use:[
+           {
+             loader:'css-loader',
+             options:{
+               /*modules:{
+                localIdentName:'[path][name]_[local]_[hash:4]'
+               }   */                 
+             } 
+           },
+          ]
+         })
+       },
+       {
+        test:/\.(png|jpg|jgeg|gif)$/,
+        use:[
+          {
+            loader:'url-loader',
+            options:{
+              //默认是[hash].[ext]
+              name:'[name].[hash:4].[ext]',
+              outputPath:&quot;assets/img&quot;,
+              publicPath:&quot;assets/img&quot;,
+              limit:5000
+            }
+          },
+          {
+            loader:'img-loader',
+            options:{
+              plugins:[
+                require('imagemin-pngquant')({
+                  speed:2//1-11
+                }),
+                require('imagemin-mozjpeg')({
+                  quality:80//1-100
+                }),
+                require('imagemin-gifsicle')({
+                  optimizationLevel:1//1,2,3
+                })
+              ]
+            }
+          },
+        ]
+       },
+      {
+        test:/\.html$/,
+        use:{
+          loader:'html-loader',
+          options:{
+            attrs:[&quot;img:data-src&quot;]
+          }
+        }
+      } 
+  		]
+  	},
+    plugins:[
+     new extractTextCss({
+      filename:'[name].min.css'
+     }),
+     new htmlWebpackPlugin({
+     	filename:&quot;index.html&quot;,
+     	template:&quot;./src/index.html&quot;,
+     }),
+     // 清楚之前的打包dist文件
+     new CleanWebpackPlugin(),
+  
+  
+     // webpack3.x 代码分割的配置
+     // 拆分 第三房包代码
+     /*new webpack.optimize.CommonsChunksPlugin({
+       name:'vendor',
+       minChunks:'infinity' // 表示无论出现多少次都会拆分
+     }),
+     // 拆分 webpack运行代码
+     new webpack.optimize.CommonsChunksPlugin({
+       name:'manifest',
+       minChunks:'infinity'
+     }),
+  
+     // 拆分业务代码
+     new webpack.optimize.CommonsChunksPlugin({
+       name:'app.js',
+       minChunks:2
+     }),*/   
+     //new webpack.optimize.UglifyJsPlugin();
+    ]
+  }
+</code></pre></div></li> <li><p>代码体积控制</p> <p><em><strong>代码压缩</strong></em></p> <p><em><strong>tree-shaking</strong></em></p> <p>tree-shaking对export default 出的代码不友好，不能tree-shaking</p> <div class="language- extra-class"><pre class="language-text"><code>  module.exports=function(){
+  	console.log(&quot;a&quot;);
+  	function a(){
+  
+  	}
+  	function b(){
+  		
+  	}
+  }
+  // 这种export 的代码不能tree-shaking
+
+  // 对这种代码 比较友好
+  export const a=function(){
+  	console.log('i am a');
+  }
+  export const b=function(){
+  	console.log('i am b');
+  }
+</code></pre></div></li></ul></div> <hr> <!----></div> <!----></div></div> <footer class="footer" data-v-0d113134><div class="footer-left-wrap" data-v-0d113134><ul class="contact" data-v-0d113134><li class="contact-item" data-v-0d113134><a href="https://github.com/ulivz" target="_blank" rel="noopener noreferrer" class="nav-link external" data-v-0d113134><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github" data-v-0d113134><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" data-v-0d113134></path></svg>
+          
+        </a></li><li class="contact-item" data-v-0d113134><a href="https://twitter.com/_ulivz" target="_blank" rel="noopener noreferrer" class="nav-link external" data-v-0d113134><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter" data-v-0d113134><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" data-v-0d113134></path></svg>
+          
+        </a></li></ul></div> <div class="footer-right-wrap" data-v-0d113134><ul class="copyright" data-v-0d113134><li class="copyright-item" data-v-0d113134><a href="https://policies.google.com/privacy?hl=en-US" target="_blank" rel="noopener noreferrer" class="nav-link external" data-v-0d113134>Privacy Policy</a></li><li class="copyright-item" data-v-0d113134><a href="/myblog/2019/11/26/webpack%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/.html" class="nav-link" data-v-0d113134>MIT Licensed | Copyright © 2018-present Vue.js</a></li></ul></div></footer></div><div class="global-ui"></div></div>
+    <script src="/myblog/assets/js/app.c3e76545.js" defer></script><script src="/myblog/assets/js/4.e0b45d6f.js" defer></script><script src="/myblog/assets/js/5.bc987a91.js" defer></script><script src="/myblog/assets/js/18.1ca7f298.js" defer></script>
+  </body>
+</html>
